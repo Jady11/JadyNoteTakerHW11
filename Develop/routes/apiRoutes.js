@@ -1,15 +1,15 @@
 const fs = require("fs");
-const notesData = require("..db/db.json")
+const notesData = require("../db/db.json")
 const { v4:uuid } = require("uuid")
 
 module.exports = function(app){
 
-    app.get("api/notes", function(req, res){
+    app.get("/notes", function(req, res){
         console.log(notesData)
         res.json(notesData)
     });
 
-    app.post("api/notes", function(req, res){
+    app.post("/notes", function(req, res){
         notesData.push(req.body)
         res.json(true)
         console.log(req.body)
@@ -23,7 +23,7 @@ module.exports = function(app){
         })
     });
 
-    app.delete("/api/notes/:id", function(req,res){
+    app.delete("/notes/:id", function(req,res){
         const filteredNotes = notesData.filter(note => note.id !== req.params.id);
         fs.writeFile("db/db.json", JSON.stringify(filteredNotes), function(err, log){
             if (err){
