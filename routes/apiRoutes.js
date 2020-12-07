@@ -6,15 +6,15 @@ const router = require("express").Router();
 
 
     router.get("/notes", function(req, res){
-        console.log(notesData)
+        // console.log(notesData)
         res.json(notesData)
     });
 
     router.post("/notes", function(req, res){
-        notesData.push(req.body)
-        res.json(true)
+        // notesData.push(req.body)
+        // res.json(true)
         console.log(req.body)
-        notesData.push({...req.body, id:uuidv4()})
+        notesData.push({...req.body, id:uuid()})
         fs.writeFile("db/db.json",JSON.stringify(notesData), function(err, log){
             if (err){
                 throw err 
@@ -25,7 +25,9 @@ const router = require("express").Router();
     });
 
     router.delete("/notes/:id", function(req,res){
+        console.log("To be deleted", req.params.id);
         const filteredNotes = notesData.filter(note => note.id !== req.params.id);
+        console.log(filteredNotes);
         fs.writeFile("db/db.json", JSON.stringify(filteredNotes), function(err, log){
             if (err){
                 throw err 
@@ -34,5 +36,6 @@ const router = require("express").Router();
             }
         })
     })
+    
     module.exports = router;
     
